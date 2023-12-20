@@ -19,7 +19,7 @@ __pycache__/
 *.pyc
 
 # Środowisko wirtualne
-venv/
+.venv/
 env/
 *.pyc
 __pycache__/
