@@ -31,6 +31,8 @@ __pycache__/
 *~
 *.DS_Store
 
+test.db
+
 # Katalogi wygenerowane przez narzędzia budowania
 build/
 dist/
