@@ -1,5 +1,12 @@
 from pydantic import BaseModel
 
-class UserSchema(BaseModel):
-    username: str
+class UserLoginSchema(BaseModel):
+    album_number: str
     password: str
+
+class UserOut(BaseModel):
+    id: int
+    album_number: str
+
+    class Config:
+        orm_mode = True

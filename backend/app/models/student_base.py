@@ -12,7 +12,7 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True)
+    album_number = Column(String, unique=True, index=True)
     hashed_password = Column(String)
 
 class Student(Base):
