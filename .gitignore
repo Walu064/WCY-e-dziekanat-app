@@ -13,3 +13,53 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Pliki wygenerowane przez Python
+__pycache__/
+*.pyc
+
+# Środowisko wirtualne
+venv/
+env/
+*.pyc
+__pycache__/
+
+# Pliki konfiguracyjne
+*.pyo
+*.bak
+*.swp
+*~
+*.DS_Store
+
+# Katalogi wygenerowane przez narzędzia budowania
+build/
+dist/
+__pycache__/
+
+# Pliki generowane przez narzędzia budowania
+*.egg-info/
+*.egg
+MANIFEST
+
+# Katalogi środowiskowe
+.pip/
+.cache/
+.pytest_cache/
+.coverage
+.tox/
+
+# Logi i raporty
+*.log
+*.xml
+*.html
+*.coverage
+
+# Środowisko Jupyter Notebook
+.ipynb_checkpoints/
+
+# Pliki testowe
+tests/
+test_*.py
+
+# Katalogi zawierające dane
+data/
