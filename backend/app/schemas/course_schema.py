@@ -1,9 +1,13 @@
 from pydantic import BaseModel
 
 class CourseBase(BaseModel):
+    id: int
     name: str
     lecturer: str
     type: str
+
+    class Config:
+        from_attributes = True
 
 class CourseCreate(CourseBase):
     pass
