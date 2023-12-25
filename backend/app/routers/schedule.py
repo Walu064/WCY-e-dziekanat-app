@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from typing import List
+from datetime import datetime, timedelta
 from schemas import CourseCreate, CourseDB, ScheduleCreate, ScheduleDB, ScheduleBase
 from database import Course, Schedule, get_db
 
@@ -34,3 +35,12 @@ def get_schedules_by_dean_group(dean_group: str, db: Session = Depends(get_db)):
     schedules = db.query(Schedule).filter(Schedule.dean_group == dean_group).all()
     return [ScheduleBase.from_orm(schedule) for schedule in schedules]
 
+@schedule_router.get('/today_schedules/by_group/{dean_group}', response_model=List[ScheduleBase])
+def get_today_schedules_by_dean_group(dean_group: str, db: Session = Depends(get_db)):
+    today = datetime.now().date()
+    schedules = db.query(Schedule).filter(
+        Schedule.dean_group == dean_group,
+        Schedule.date_time >= today,
+        Schedule.date_time < today + timedelta(days=1)
+    ).all()
+    return [ScheduleBase.from_orm(schedule) for schedule in schedules]

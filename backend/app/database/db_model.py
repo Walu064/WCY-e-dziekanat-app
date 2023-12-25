@@ -23,7 +23,7 @@ class Course(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     lecturer = Column(String, nullable=False)
-    type = Column(String, nullable=False)  # np. wykład, ćwiczenia, seminarium
+    type = Column(String, nullable=False)
 
 class Schedule(Base):
     __tablename__ = 'schedules'
