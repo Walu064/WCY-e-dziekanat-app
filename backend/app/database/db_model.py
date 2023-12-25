@@ -1,6 +1,6 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
 
@@ -18,19 +18,21 @@ class User(Base):
     second_name = Column(String)
     dean_group = Column(String)
 
-class Teacher(Base):
-    __tablename__ = "teachers"
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
-
 class Course(Base):
-    __tablename__ = "courses"
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
+    __tablename__ = 'courses'
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+    lecturer = Column(String, nullable=False)
+    type = Column(String, nullable=False)  # np. wykład, ćwiczenia, seminarium
 
-class DeanGroup(Base):
-    __tablename__ = "dean_groups"
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
+class Schedule(Base):
+    __tablename__ = 'schedules'
+    id = Column(Integer, primary_key=True)
+    course_id = Column(Integer, ForeignKey('courses.id'), nullable=False)
+    date_time = Column(DateTime, nullable=False)
+    classroom = Column(String, nullable=False)
+    dean_group = Column(String, nullable=False)
+
+    course = relationship("Course")
 
 Base.metadata.create_all(bind=engine)
