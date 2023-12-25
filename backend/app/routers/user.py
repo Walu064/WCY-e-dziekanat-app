@@ -8,7 +8,7 @@ from funcs import hash_password, verify_password
 user_router = APIRouter()
 
 @user_router.post("/register/")
-def register(user: UserCreateSchema, db: Session = Depends(get_db)):
+def register_user(user: UserCreateSchema, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.album_number == user.album_number).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Użytkownik już istnieje")
@@ -20,7 +20,7 @@ def register(user: UserCreateSchema, db: Session = Depends(get_db)):
     return {"username": db_user.album_number}
 
 @user_router.post("/login/")
-def login(user: UserLoginSchema, db: Session = Depends(get_db)):
+def login_user(user: UserLoginSchema, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.album_number == user.album_number).first()
     if not db_user:
         raise HTTPException(status_code=400, detail="Niepoprawna nazwa użytkownika")
@@ -32,3 +32,10 @@ def login(user: UserLoginSchema, db: Session = Depends(get_db)):
 def get_users(db : Session = Depends(get_db)):
     users = db.query(User).all()
     return users
+
+@user_router.get("/user/{album_number}", response_model=UserOut)
+def get_user_by_album_number(album_number: str, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.album_number == album_number).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Użytkownik nie znaleziony")
+    return user
