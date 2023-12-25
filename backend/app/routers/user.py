@@ -1,19 +1,19 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from typing import List
-from schemas import UserLoginSchema, UserOut
+from schemas import UserCreateSchema, UserLoginSchema, UserOut
 from database import User, get_db
 from funcs import hash_password, verify_password
 
 user_router = APIRouter()
 
 @user_router.post("/register/")
-def register(user: UserLoginSchema, db: Session = Depends(get_db)):
+def register(user: UserCreateSchema, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.album_number == user.album_number).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Użytkownik już istnieje")
     hashed_password = hash_password(user.password)
-    db_user = User(album_number=user.album_number, hashed_password=hashed_password)
+    db_user = User(album_number=user.album_number, hashed_password=hashed_password, first_name = user.first_name, second_name = user.second_name, dean_group = user.dean_group)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)

@@ -1,2 +1,1 @@
-from .user_schema import UserLoginSchema, UserOut
-from .student_schema import StudentSchema, StudentCreateSchema
+from .user_schema import UserCreateSchema, UserLoginSchema, UserOut
