@@ -22,6 +22,29 @@ def get_course(course_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Kurs nie znaleziony")
     return course
 
+@schedule_router.put('/update_course/{course_id}', response_model=CourseDB)
+def update_course(course_id: int, course: CourseCreate, db: Session = Depends(get_db)):
+    db_course = db.query(Course).filter(Course.id == course_id).first()
+    if db_course is None:
+        raise HTTPException(status_code=404, detail="Kurs nie znaleziony")
+
+    for key, value in course.dict().items():
+        setattr(db_course, key, value)
+
+    db.commit()
+    db.refresh(db_course)
+    return db_course
+
+@schedule_router.delete('/delete_course/{course_id}', status_code=204)
+def delete_course(course_id: int, db: Session = Depends(get_db)):
+    db_course = db.query(Course).filter(Course.id == course_id).first()
+    if db_course is None:
+        raise HTTPException(status_code=404, detail="Kurs nie znaleziony")
+
+    db.delete(db_course)
+    db.commit()
+    return {"message": "Kurs usunięty pomyślnie"}
+
 @schedule_router.post('/create_schedule', response_model = ScheduleDB)
 def create_schedule(schedule: ScheduleCreate, db: Session = Depends(get_db)):
     db_schedule = Schedule(**schedule.dict())
@@ -51,3 +74,26 @@ def get_today_schedules_by_dean_group(dean_group: str, db: Session = Depends(get
         Schedule.date_time < today + timedelta(days=1)
     ).all()
     return [ScheduleBase.from_orm(schedule) for schedule in schedules]
+
+@schedule_router.put('/update_schedule/{schedule_id}', response_model=ScheduleDB)
+def update_schedule(schedule_id: int, schedule: ScheduleCreate, db: Session = Depends(get_db)):
+    db_schedule = db.query(Schedule).filter(Schedule.id == schedule_id).first()
+    if db_schedule is None:
+        raise HTTPException(status_code=404, detail="Plan zajęć nie znaleziony")
+
+    for key, value in schedule.dict().items():
+        setattr(db_schedule, key, value)
+
+    db.commit()
+    db.refresh(db_schedule)
+    return db_schedule
+
+@schedule_router.delete('/delete_schedule/{schedule_id}', status_code=204)
+def delete_schedule(schedule_id: int, db: Session = Depends(get_db)):
+    db_schedule = db.query(Schedule).filter(Schedule.id == schedule_id).first()
+    if db_schedule is None:
+        raise HTTPException(status_code=404, detail="Plan zajęć nie znaleziony")
+
+    db.delete(db_schedule)
+    db.commit()
+    return {"message": "Plan zajęć usunięty pomyślnie"}
