@@ -1,8 +1,8 @@
-package com.example.wcy_e_dziekanat_app.apiService
-import com.example.wcy_e_dziekanat_app.models.Course
-import com.example.wcy_e_dziekanat_app.models.Schedule
-import com.example.wcy_e_dziekanat_app.models.UserLogin
-import com.example.wcy_e_dziekanat_app.models.UserOut
+package com.example.wcy_e_dziekanat_app.backendIntegrationModules.apiService
+import com.example.wcy_e_dziekanat_app.backendIntegrationModules.models.Course
+import com.example.wcy_e_dziekanat_app.backendIntegrationModules.models.Schedule
+import com.example.wcy_e_dziekanat_app.backendIntegrationModules.models.UserLogin
+import com.example.wcy_e_dziekanat_app.backendIntegrationModules.models.UserOut
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.POST
