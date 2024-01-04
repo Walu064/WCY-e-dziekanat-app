@@ -50,6 +50,7 @@ class DashboardActivity : ComponentActivity() {
             val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
             val (selectedCourse, setSelectedCourse) = remember { mutableStateOf<FullCourseInfo?>(null) }
             val todaySchedules = remember { mutableStateOf<List<FullCourseInfo>>(listOf()) }
+            val isExpanded = remember {mutableStateOf(false)}
 
             loggedUserAlbumNumber?.let { albumNum ->
                 apiService.getUserByAlbumNumber(albumNum).enqueue(object : Callback<UserOut> {
@@ -79,7 +80,8 @@ class DashboardActivity : ComponentActivity() {
                         deanGroupName = deanGroup.value,
                         setSelectedCourse = setSelectedCourse,
                         setShowDialog = setShowDialog,
-                        todaySchedules = todaySchedules
+                        todaySchedules = todaySchedules,
+                        isExpanded = isExpanded
                     )
 
                     if (showDialog) {
@@ -139,7 +141,8 @@ fun DashboardScreen(
     deanGroupName: String,
     setSelectedCourse: (FullCourseInfo?) -> Unit,
     setShowDialog: (Boolean) -> Unit,
-    todaySchedules: MutableState<List<FullCourseInfo>>
+    todaySchedules: MutableState<List<FullCourseInfo>>,
+    isExpanded: MutableState<Boolean>
 ){
 
     val onCourseClicked = { courseInfo: FullCourseInfo ->
@@ -155,18 +158,19 @@ fun DashboardScreen(
         TopAppBar(
             title = "e-Dziekanat WCY",
             logo = painterResource(id = R.drawable.wcy_old_logo),
-            onMenuClicked = { /* Obsługa kliknięcia menu */ }
+            isExpanded = isExpanded
         )
         Spacer(modifier = Modifier.height(32.dp))
         GreetingAndCurrentTimeSection(studentName = studentName)
         Spacer(modifier = Modifier.height(32.dp))
         InformationAboutGroupSection(deanGroupName = deanGroupName)
         CoursesScheduleTable(coursesList = todaySchedules.value, onCourseClicked)
+
     }
 }
 
 @Composable
-fun TopAppBar(title: String, logo: Painter, onMenuClicked: () -> Unit) {
+fun TopAppBar(title: String, logo: Painter, isExpanded: MutableState<Boolean>) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -186,8 +190,13 @@ fun TopAppBar(title: String, logo: Painter, onMenuClicked: () -> Unit) {
                 modifier = Modifier.size(50.dp)
             )
             Text(text = title, style = MaterialTheme.typography.headlineMedium)
-            IconButton(onClick = onMenuClicked) {
+            IconButton(onClick = { isExpanded.value = true }) {
                 Icon(Icons.Default.Menu, contentDescription = "Menu")
+                DropdownMenu(expanded = isExpanded.value, onDismissRequest = { isExpanded.value = false }) {
+                    DropdownMenuItem(text = { Text("Mój profil") }, onClick = { /*TODO: Obsługa kliknięcia "Mój profil"*/ })
+                    DropdownMenuItem(text = { Text("Wyświetl plan zajęć") }, onClick = { /*TODO: Obsługa kliknięcia "Wyświetl plan zajęć"*/ })
+                    DropdownMenuItem(text = { Text("Wyświetl skład grupy") }, onClick = { /*TODO: Obsługa kliknięcia "Wyświetl skład grupy"*/ })
+                }
             }
         }
     }
@@ -311,11 +320,3 @@ fun CourseDetailsDialog(fullCourseInfo: FullCourseInfo?, onDismiss: () -> Unit) 
         )
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun DashboardActivityPreview() {
-//    WCYedziekanatappTheme {
-//        DashboardScreen(studentName = "Jan", deanGroupName = "WCY19IW1S0" )
-//    }
-//}
