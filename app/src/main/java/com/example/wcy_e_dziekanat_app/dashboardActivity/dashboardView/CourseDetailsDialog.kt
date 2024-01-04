@@ -1,11 +1,11 @@
-package com.example.wcy_e_dziekanat_app.dashboardActivity
+package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.example.wcy_e_dziekanat_app.backendIntegrationModules.models.FullCourseInfo
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardModel.FullCourseInfo
 
 
 @Composable

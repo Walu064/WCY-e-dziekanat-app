@@ -1,4 +1,4 @@
-package com.example.wcy_e_dziekanat_app.loginActivity
+package com.example.wcy_e_dziekanat_app.loginActivity.loginView
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.wcy_e_dziekanat_app.R
+import com.example.wcy_e_dziekanat_app.loginActivity.loginViewModel.LoginViewModel
 
 @Composable
 fun LoginView(viewModel: LoginViewModel, startDashboardActivity: (String) -> Unit) {

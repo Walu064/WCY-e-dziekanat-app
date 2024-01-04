@@ -1,4 +1,4 @@
-package com.example.wcy_e_dziekanat_app.dashboardActivity
+package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

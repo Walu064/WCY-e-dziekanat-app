@@ -1,4 +1,4 @@
-package com.example.wcy_e_dziekanat_app.dashboardActivity.topAppBarMenuFragments.fullScheduleFragment
+package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.fullScheduleFragment
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues

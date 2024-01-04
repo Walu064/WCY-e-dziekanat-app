@@ -1,4 +1,4 @@
-package com.example.wcy_e_dziekanat_app.dashboardActivity.topAppBarMenuFragments.myProfileFragment
+package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.myProfileFragment
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

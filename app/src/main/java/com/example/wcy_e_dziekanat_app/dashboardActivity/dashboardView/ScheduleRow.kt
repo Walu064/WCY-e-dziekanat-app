@@ -1,4 +1,4 @@
-package com.example.wcy_e_dziekanat_app.dashboardActivity
+package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.wcy_e_dziekanat_app.backendIntegrationModules.models.FullCourseInfo
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardModel.FullCourseInfo
 
 
 @Composable

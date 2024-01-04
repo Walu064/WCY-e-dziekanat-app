@@ -1,4 +1,4 @@
-package com.example.wcy_e_dziekanat_app.dashboardActivity
+package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text

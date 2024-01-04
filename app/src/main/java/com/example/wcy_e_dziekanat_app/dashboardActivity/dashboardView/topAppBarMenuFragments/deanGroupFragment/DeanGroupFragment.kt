@@ -1,4 +1,4 @@
-package com.example.wcy_e_dziekanat_app.dashboardActivity.topAppBarMenuFragments.deanGroupFragment
+package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.deanGroupFragment
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

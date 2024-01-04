@@ -1,4 +1,4 @@
-package com.example.wcy_e_dziekanat_app.dashboardActivity
+package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
@@ -36,7 +36,7 @@ fun TopAppBar(
     logo: Painter,
     isExpanded: MutableState<Boolean>,
     navController: NavController,
-    activity: ComponentActivity
+    activity: ComponentActivity?
 ) {
     Card(
         modifier = Modifier
@@ -67,7 +67,7 @@ fun TopAppBar(
                         navController.navigate("fullScheduleFragment") })
                     DropdownMenuItem(trailingIcon = { Icons.Default.List}, text = { Text("Wyświetl skład grupy") }, onClick = {isExpanded.value = !isExpanded.value
                         navController.navigate("deanGroupFragment") })
-                    DropdownMenuItem(trailingIcon = { Icons.Default.ExitToApp}, text = { Text("Wyloguj") }, onClick = { activity.finish()})
+                    DropdownMenuItem(trailingIcon = { Icons.Default.ExitToApp}, text = { Text("Wyloguj") }, onClick = { activity?.finish() })
                 }
             }
         }

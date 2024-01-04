@@ -1,7 +1,8 @@
-package com.example.wcy_e_dziekanat_app.loginActivity
+package com.example.wcy_e_dziekanat_app.loginActivity.loginViewModel
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.wcy_e_dziekanat_app.backendIntegrationModules.apiService.ApiService
+import com.example.wcy_e_dziekanat_app.apiService.ApiService
+import com.example.wcy_e_dziekanat_app.loginActivity.loginModel.LoginModel
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback

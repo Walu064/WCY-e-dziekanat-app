@@ -9,8 +9,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
-import com.example.wcy_e_dziekanat_app.backendIntegrationModules.apiService.ApiService
+import com.example.wcy_e_dziekanat_app.apiService.ApiService
 import com.example.wcy_e_dziekanat_app.dashboardActivity.DashboardActivity
+import com.example.wcy_e_dziekanat_app.loginActivity.loginView.LoginView
+import com.example.wcy_e_dziekanat_app.loginActivity.loginViewModel.LoginViewModel
+import com.example.wcy_e_dziekanat_app.loginActivity.loginViewModelFactory.LoginViewModelFactory
 import com.example.wcy_e_dziekanat_app.ui.theme.WCYedziekanatappTheme
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
