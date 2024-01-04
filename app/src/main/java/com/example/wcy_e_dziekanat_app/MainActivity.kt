@@ -141,7 +141,6 @@ class MainActivity : ComponentActivity() {
         val intent = Intent(this, DashboardActivity::class.java)
         intent.putExtra("loggedUserAlbumNumber", albumNumber)
         startActivity(intent)
-        finish()
     }
 
     @Preview(showBackground = true)

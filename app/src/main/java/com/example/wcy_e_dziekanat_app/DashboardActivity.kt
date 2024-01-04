@@ -9,6 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
@@ -20,6 +21,10 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.wcy_e_dziekanat_app.apiService.ApiService
 import com.example.wcy_e_dziekanat_app.models.Course
 import com.example.wcy_e_dziekanat_app.models.FullCourseInfo
@@ -77,19 +82,36 @@ class DashboardActivity : ComponentActivity() {
             }
 
             WCYedziekanatappTheme {
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    DashboardScreen(
-                        studentName = firstName.value,
-                        deanGroupName = deanGroup.value,
-                        setSelectedCourse = setSelectedCourse,
-                        setShowDialog = setShowDialog,
-                        todaySchedules = todaySchedules,
-                        isExpanded = isExpanded
-                    )
+                val navController = rememberNavController()
 
-                    if (showDialog) {
-                        CourseDetailsDialog(fullCourseInfo = selectedCourse) {
-                            setShowDialog(false)
+                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+
+                    NavHost(navController = navController, startDestination = "dashboardActivity") {
+                        composable("dashboardActivity") {
+                            DashboardScreen(
+                                studentName = firstName.value,
+                                deanGroupName = deanGroup.value,
+                                setSelectedCourse = setSelectedCourse,
+                                setShowDialog = setShowDialog,
+                                todaySchedules = todaySchedules,
+                                isExpanded = isExpanded,
+                                navController = navController,
+                                activity = this@DashboardActivity
+                            )
+                            if (showDialog) {
+                                CourseDetailsDialog(fullCourseInfo = selectedCourse) {
+                                    setShowDialog(false)
+                                }
+                            }
+                        }
+                        composable("myProfileFragment") {
+                            MyProfileFragment(navController = navController)
+                        }
+                        composable("fullScheduleFragment") {
+                            FullScheduleFragment(navController = navController)
+                        }
+                        composable("deanGroupFragment") {
+                            DeanGroupFragment(navController = navController)
                         }
                     }
                 }
@@ -145,7 +167,9 @@ fun DashboardScreen(
     setSelectedCourse: (FullCourseInfo?) -> Unit,
     setShowDialog: (Boolean) -> Unit,
     todaySchedules: MutableState<List<FullCourseInfo>>,
-    isExpanded: MutableState<Boolean>
+    isExpanded: MutableState<Boolean>,
+    navController: NavController,
+    activity: ComponentActivity
 ){
 
     val onCourseClicked = { courseInfo: FullCourseInfo ->
@@ -161,7 +185,9 @@ fun DashboardScreen(
         TopAppBar(
             title = "e-Dziekanat WCY",
             logo = painterResource(id = R.drawable.wcy_old_logo),
-            isExpanded = isExpanded
+            isExpanded = isExpanded,
+            navController = navController,
+            activity = activity
         )
         Spacer(modifier = Modifier.height(32.dp))
         GreetingAndCurrentTimeSection(studentName = studentName)
@@ -173,7 +199,12 @@ fun DashboardScreen(
 }
 
 @Composable
-fun TopAppBar(title: String, logo: Painter, isExpanded: MutableState<Boolean>) {
+fun TopAppBar(
+    title: String,
+    logo: Painter,
+    isExpanded: MutableState<Boolean>,
+    navController: NavController,
+    activity: ComponentActivity) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -196,9 +227,14 @@ fun TopAppBar(title: String, logo: Painter, isExpanded: MutableState<Boolean>) {
             IconButton(onClick = { isExpanded.value = true }) {
                 Icon(Icons.Default.Menu, contentDescription = "Menu")
                 DropdownMenu(expanded = isExpanded.value, onDismissRequest = { isExpanded.value = false }) {
-                    DropdownMenuItem(leadingIcon = {Icons.Default.Person}, text = { Text("Mój profil") }, onClick = { /*TODO: Obsługa kliknięcia "Mój profil"*/ })
-                    DropdownMenuItem(leadingIcon = {Icons.Default.DateRange}, text = { Text("Wyświetl plan zajęć") }, onClick = { /*TODO: Obsługa kliknięcia "Wyświetl plan zajęć"*/ })
-                    DropdownMenuItem(leadingIcon = {Icons.Default.List}, text = { Text("Wyświetl skład grupy") }, onClick = { /*TODO: Obsługa kliknięcia "Wyświetl skład grupy"*/ })
+                    DropdownMenuItem(trailingIcon = {Icons.Default.Person}, text = { Text("Mój profil") }, onClick = {
+                        (!isExpanded.value).also { isExpanded.value = it }
+                        navController.navigate("myProfileFragment") })
+                    DropdownMenuItem(trailingIcon = {Icons.Default.DateRange}, text = { Text("Wyświetl plan zajęć") }, onClick = {isExpanded.value = !isExpanded.value
+                        navController.navigate("fullScheduleFragment") })
+                    DropdownMenuItem(trailingIcon = {Icons.Default.List}, text = { Text("Wyświetl skład grupy") }, onClick = {isExpanded.value = !isExpanded.value
+                        navController.navigate("deanGroupFragment") })
+                    DropdownMenuItem(trailingIcon = {Icons.Default.ExitToApp}, text = { Text("Wyloguj") }, onClick = { activity.finish()})
                 }
             }
         }
@@ -321,5 +357,56 @@ fun CourseDetailsDialog(fullCourseInfo: FullCourseInfo?, onDismiss: () -> Unit) 
                 }
             }
         )
+    }
+}
+
+@Composable
+fun MyProfileFragment(navController: NavController) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("Profil Użytkownika", style = MaterialTheme.typography.headlineLarge)
+        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = { navController.popBackStack() }) {
+            Text("Powrót do ekranu głównego.")
+        }
+    }
+}
+
+@Composable
+fun FullScheduleFragment(navController: NavController) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Text("Pełny Plan Zajęć", style = MaterialTheme.typography.headlineLarge)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = { navController.popBackStack() }) {
+            Text("Powrót")
+        }
+    }
+}
+
+@Composable
+fun DeanGroupFragment(navController: NavController) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Text("Grupa Dziekańska", style = MaterialTheme.typography.headlineLarge)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = { navController.popBackStack() }) {
+            Text("Powrót")
+        }
     }
 }
