@@ -23,17 +23,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.wcy_e_dziekanat_app.R
-import com.example.wcy_e_dziekanat_app.backendIntegrationModules.apiService.ApiService
-import com.example.wcy_e_dziekanat_app.backendIntegrationModules.models.UserLogin
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 @Composable
-fun LoginScreen(apiService: ApiService, startDashboardActivity: (String) -> Unit) {
-    var albumNumber by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+fun LoginView(viewModel: LoginViewModel, startDashboardActivity: (String) -> Unit) {
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
     Column(
@@ -52,22 +44,17 @@ fun LoginScreen(apiService: ApiService, startDashboardActivity: (String) -> Unit
                 .padding(bottom = 16.dp)
         )
 
-        errorMessage?.let {
-            Text(it, color = Color.Red)
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-
         TextField(
-            value = albumNumber,
-            onValueChange = { albumNumber = it },
+            value = viewModel.albumNumber.value,
+            onValueChange = { viewModel.albumNumber.value = it },
             label = { Text("Numer albumu studenta") }
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
-            value = password,
-            onValueChange = { password = it },
+            value = viewModel.password.value,
+            onValueChange = { viewModel.password.value = it },
             label = { Text("Hasło") },
             visualTransformation = PasswordVisualTransformation()
         )
@@ -75,38 +62,20 @@ fun LoginScreen(apiService: ApiService, startDashboardActivity: (String) -> Unit
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            performLogin(apiService, albumNumber, password) { success, error ->
+            viewModel.performLogin { success, error ->
                 if (success) {
                     errorMessage = null
-                    startDashboardActivity(albumNumber)
+                    startDashboardActivity(viewModel.albumNumber.value)
                 } else {
                     errorMessage = error ?: "Nieznany błąd"
                 }
             }
         }) {
-            Text("Zaloguj się!")
+            Text("Zaloguj się")
+        }
+
+        errorMessage?.let {
+            Text(it, color = Color.Red)
         }
     }
-}
-
-private fun performLogin(
-    apiService: ApiService,
-    albumNumber: String,
-    password: String,
-    onResult: (Boolean, String?) -> Unit
-) {
-    val call = apiService.loginUser(UserLogin(albumNumber, password))
-    call.enqueue(object : Callback<ResponseBody> {
-        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-            if (response.isSuccessful) {
-                onResult(true, null)
-            } else {
-                onResult(false, "Kod błędu: ${response.code()}")
-            }
-        }
-
-        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-            onResult(false, "Błąd sieci: ${t.message}")
-        }
-    })
 }

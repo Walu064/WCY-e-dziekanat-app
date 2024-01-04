@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModelProvider
 import com.example.wcy_e_dziekanat_app.backendIntegrationModules.apiService.ApiService
 import com.example.wcy_e_dziekanat_app.dashboardActivity.DashboardActivity
 import com.example.wcy_e_dziekanat_app.ui.theme.WCYedziekanatappTheme
@@ -24,10 +25,13 @@ class LoginActivity : ComponentActivity() {
             .build()
         val apiService = retrofit.create(ApiService::class.java)
 
+        val viewModelFactory = LoginViewModelFactory(apiService)
+        val viewModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
+
         setContent {
             WCYedziekanatappTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    LoginScreen(apiService, ::startDashboardActivity)
+                    LoginView(viewModel, ::startDashboardActivity)
                 }
             }
         }
