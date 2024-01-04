@@ -8,7 +8,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -193,9 +196,9 @@ fun TopAppBar(title: String, logo: Painter, isExpanded: MutableState<Boolean>) {
             IconButton(onClick = { isExpanded.value = true }) {
                 Icon(Icons.Default.Menu, contentDescription = "Menu")
                 DropdownMenu(expanded = isExpanded.value, onDismissRequest = { isExpanded.value = false }) {
-                    DropdownMenuItem(text = { Text("Mój profil") }, onClick = { /*TODO: Obsługa kliknięcia "Mój profil"*/ })
-                    DropdownMenuItem(text = { Text("Wyświetl plan zajęć") }, onClick = { /*TODO: Obsługa kliknięcia "Wyświetl plan zajęć"*/ })
-                    DropdownMenuItem(text = { Text("Wyświetl skład grupy") }, onClick = { /*TODO: Obsługa kliknięcia "Wyświetl skład grupy"*/ })
+                    DropdownMenuItem(leadingIcon = {Icons.Default.Person}, text = { Text("Mój profil") }, onClick = { /*TODO: Obsługa kliknięcia "Mój profil"*/ })
+                    DropdownMenuItem(leadingIcon = {Icons.Default.DateRange}, text = { Text("Wyświetl plan zajęć") }, onClick = { /*TODO: Obsługa kliknięcia "Wyświetl plan zajęć"*/ })
+                    DropdownMenuItem(leadingIcon = {Icons.Default.List}, text = { Text("Wyświetl skład grupy") }, onClick = { /*TODO: Obsługa kliknięcia "Wyświetl skład grupy"*/ })
                 }
             }
         }
