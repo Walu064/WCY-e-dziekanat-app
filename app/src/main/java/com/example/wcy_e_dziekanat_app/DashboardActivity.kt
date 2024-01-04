@@ -5,18 +5,48 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -38,7 +68,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class DashboardActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -376,23 +408,99 @@ fun MyProfileFragment(navController: NavController) {
         }
     }
 }
-
 @Composable
 fun FullScheduleFragment(navController: NavController) {
+    val selectedDate = remember { mutableStateOf<LocalDate?>(null) }
+    val currentMonthYear = remember { mutableStateOf(YearMonth.now()) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Pełny Plan Zajęć", style = MaterialTheme.typography.headlineLarge)
-        Spacer(modifier = Modifier.height(16.dp))
+        CalendarHeader(currentMonthYear)
+        CalendarView(currentMonthYear, selectedDate)
 
         Spacer(modifier = Modifier.height(16.dp))
+
+        selectedDate.value?.let {
+            Text("Wybrana data: ${it.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))}")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Button(onClick = { navController.popBackStack() }) {
             Text("Powrót")
         }
     }
 }
+
+@Composable
+fun CalendarHeader(currentMonthYear: MutableState<YearMonth>) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IconButton(onClick = {
+            currentMonthYear.value = currentMonthYear.value.minusMonths(1)
+        }) {
+            Icon(Icons.Default.ArrowBack, contentDescription = "Poprzedni miesiąc")
+        }
+        Text(
+            text = "${currentMonthYear.value.month.name.lowercase(Locale.ROOT)
+                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }} ${currentMonthYear.value.year}",
+            style = MaterialTheme.typography.headlineSmall
+        )
+        IconButton(onClick = {
+            currentMonthYear.value = currentMonthYear.value.plusMonths(1)
+        }) {
+            Icon(Icons.Default.ArrowForward, contentDescription = "Następny miesiąc")
+        }
+    }
+}
+
+@Composable
+fun CalendarView(currentMonthYear: MutableState<YearMonth>, selectedDate: MutableState<LocalDate?>) {
+    val currentMonth = currentMonthYear.value
+    val daysInMonth = currentMonth.lengthOfMonth()
+    val firstOfMonth = currentMonth.atDay(1)
+    val daysOffset = firstOfMonth.dayOfWeek.value - 1
+    val days = (1..daysInMonth).map { day ->
+        currentMonth.atDay(day)
+    }
+
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(7),
+        contentPadding = PaddingValues(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        items(daysOffset) {
+            Spacer(modifier = Modifier.size(40.dp))
+        }
+        items(days) { day ->
+            DayView(day = day, selectedDate = selectedDate)
+        }
+    }
+}
+
+@Composable
+fun DayView(day: LocalDate, selectedDate: MutableState<LocalDate?>) {
+    Box(
+        modifier = Modifier
+            .size(40.dp)
+            .background(if (selectedDate.value == day) Color.Gray else Color.Transparent)
+            .clickable {
+                selectedDate.value = day
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(text = day.dayOfMonth.toString())
+    }
+}
+
 
 @Composable
 fun DeanGroupFragment(navController: NavController) {
