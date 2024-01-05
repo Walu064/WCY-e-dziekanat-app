@@ -14,8 +14,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.wcy_e_dziekanat_app.R
-import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardViewModel.DashboardViewModel
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardModel.FullCourseInfo
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardViewModel.DashboardViewModel
 
 @Composable
 fun DashboardScreen(viewModel: DashboardViewModel, navController: NavController) {

@@ -8,9 +8,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.wcy_e_dziekanat_app.apiService.ApiService
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.DashboardScreen
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.deanGroupFragment.DeanGroupFragment
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.fullScheduleFragment.FullScheduleFragment
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.myProfileFragment.MyProfileFragment
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardViewModel.DashboardViewModel
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardViewModelFactory.DashboardViewModelFactory
 import com.example.wcy_e_dziekanat_app.ui.theme.WCYedziekanatappTheme
@@ -33,12 +38,24 @@ class DashboardActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             WCYedziekanatappTheme {
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    DashboardScreen(viewModel = viewModel, navController = navController)
+                    NavHost(navController = navController, startDestination = "dashboardActivityView") {
+                        composable("dashboardActivityView") {
+                            Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                                DashboardScreen(viewModel = viewModel, navController = navController)
+                            }
+                        }
+                        composable("myProfileFragment") {
+                            MyProfileFragment(navController = navController)
+                        }
+                        composable("fullScheduleFragment") {
+                            FullScheduleFragment(navController = navController)
+                        }
+                        composable("deanGroupFragment") {
+                            DeanGroupFragment(navController = navController)
+                        }
+                    }
                 }
             }
-        }
-
         intent.getStringExtra("loggedUserAlbumNumber")?.let { albumNumber ->
             viewModel.getUserData(albumNumber)
         }
