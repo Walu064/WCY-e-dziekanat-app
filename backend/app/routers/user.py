@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Body, Depends
 from sqlalchemy.orm import Session
 from typing import List
 from schemas import UserCreateSchema, UserLoginSchema, UserOut
@@ -39,3 +39,27 @@ def get_user_by_album_number(album_number: str, db: Session = Depends(get_db)):
     if not user:
         raise HTTPException(status_code=404, detail="Użytkownik nie znaleziony")
     return user
+
+@user_router.put("/user/{album_number}")
+def update_user(album_number: str, first_name: str = Body(...), second_name: str = Body(...), dean_group: str = Body(...), db: Session = Depends(get_db)):
+    db_user = db.query(User).filter(User.album_number == album_number).first()
+    if not db_user:
+        raise HTTPException(status_code=404, detail="Użytkownik nie znaleziony")
+
+    db_user.first_name = first_name
+    db_user.second_name = second_name
+    db_user.dean_group = dean_group
+
+    db.commit()
+    db.refresh(db_user)
+    return {"message": "Użytkownik zaktualizowany"}
+
+@user_router.delete("/user/{album_number}")
+def delete_user(album_number: str, db: Session = Depends(get_db)):
+    db_user = db.query(User).filter(User.album_number == album_number).first()
+    if not db_user:
+        raise HTTPException(status_code=404, detail="Użytkownik nie znaleziony")
+
+    db.delete(db_user)
+    db.commit()
+    return {"message": "Użytkownik usunięty"}
