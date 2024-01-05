@@ -13,7 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.wcy_e_dziekanat_app.apiService.ApiService
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.DashboardScreen
-import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.deanGroupFragment.DeanGroupFragment
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.deanGroupFragment.deanGroupFragmentView.DeanGroupFragment
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.fullScheduleFragment.fullScheduleFragmentView.FullScheduleFragment
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.fullScheduleFragment.fullScheduleFragmentViewModel.FullScheduleFragmentViewModel
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.fullScheduleFragment.fullScheduleFragmentViewModelFactory.FullScheduleFragmentViewModelFactory
@@ -56,7 +56,7 @@ class DashboardActivity : ComponentActivity() {
                             FullScheduleFragment(viewModel = fullScheduleFragmentViewModel, navController = navController, deanGroup = dashboardActivityViewModel.deanGroup.value)
                         }
                         composable("deanGroupFragment") {
-                            DeanGroupFragment(navController = navController)
+                            DeanGroupFragment(navController = navController, dashboardActivityViewModel.deanGroup.value)
                         }
                         composable("searchStudentFragment") {
 
