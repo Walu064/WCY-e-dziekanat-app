@@ -8,19 +8,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardModel.UserOut
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.customHeader.CustomHeader
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.deanGroupFragment.deanGroupFragmentViewModel.DeanGroupFragmentViewModel
 
 @Composable
-fun DeanGroupFragment(navController: NavController, deanGroup: String) {
-    val students = listOf(
-        UserOut(1, "213769", "Jacek", "Barabasz", "WCY21KW37"),
-        UserOut(2, "692137", "Zbyszek", "Żabkowski", "WCY21KW37"),
-    )
+fun DeanGroupFragment(viewModel: DeanGroupFragmentViewModel, navController: NavController, deanGroup: String) {
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchStudents(deanGroup)
+    }
+
+    val students by viewModel.students.collectAsState()
 
     Column(
         modifier = Modifier
@@ -29,7 +34,6 @@ fun DeanGroupFragment(navController: NavController, deanGroup: String) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CustomHeader(headerContent = "Skład grupy $deanGroup")
-
 
         StudentsColumn(students = students)
 

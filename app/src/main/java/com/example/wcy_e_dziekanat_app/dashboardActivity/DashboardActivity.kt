@@ -1,5 +1,6 @@
 package com.example.wcy_e_dziekanat_app.dashboardActivity
 
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.deanGroupFragment.deanGroupFragmentViewModelFactory.DeanGroupViewFragmentModelFactory
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.wcy_e_dziekanat_app.apiService.ApiService
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.DashboardScreen
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.deanGroupFragment.deanGroupFragmentView.DeanGroupFragment
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.deanGroupFragment.deanGroupFragmentViewModel.DeanGroupFragmentViewModel
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.fullScheduleFragment.fullScheduleFragmentView.FullScheduleFragment
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.fullScheduleFragment.fullScheduleFragmentViewModel.FullScheduleFragmentViewModel
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.fullScheduleFragment.fullScheduleFragmentViewModelFactory.FullScheduleFragmentViewModelFactory
@@ -40,6 +42,9 @@ class DashboardActivity : ComponentActivity() {
         val fullScheduleFragmentViewModelFactory = FullScheduleFragmentViewModelFactory(apiService)
         val fullScheduleFragmentViewModel = ViewModelProvider(this, fullScheduleFragmentViewModelFactory)[FullScheduleFragmentViewModel::class.java]
 
+        val deanGroupFragmentViewModelFactory = DeanGroupViewFragmentModelFactory(apiService)
+        val deanGroupFragmentViewModel = ViewModelProvider(this, deanGroupFragmentViewModelFactory)[DeanGroupFragmentViewModel::class.java]
+
         setContent {
             val navController = rememberNavController()
             WCYedziekanatappTheme {
@@ -56,7 +61,7 @@ class DashboardActivity : ComponentActivity() {
                             FullScheduleFragment(viewModel = fullScheduleFragmentViewModel, navController = navController, deanGroup = dashboardActivityViewModel.deanGroup.value)
                         }
                         composable("deanGroupFragment") {
-                            DeanGroupFragment(navController = navController, dashboardActivityViewModel.deanGroup.value)
+                            DeanGroupFragment(viewModel = deanGroupFragmentViewModel, navController = navController, deanGroup = dashboardActivityViewModel.deanGroup.value)
                         }
                         composable("searchStudentFragment") {
 
