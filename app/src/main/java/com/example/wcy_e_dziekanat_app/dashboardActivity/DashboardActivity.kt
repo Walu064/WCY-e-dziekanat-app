@@ -58,6 +58,18 @@ class DashboardActivity : ComponentActivity() {
                         composable("deanGroupFragment") {
                             DeanGroupFragment(navController = navController)
                         }
+                        composable("searchStudentFragment") {
+
+                        }
+                        composable("searchLecturerFragment") {
+
+                        }
+                        composable("searchDeanGroupFragment") {
+
+                        }
+                        composable("displayStudiesPlan") {
+
+                        }
                     }
                 }
             }

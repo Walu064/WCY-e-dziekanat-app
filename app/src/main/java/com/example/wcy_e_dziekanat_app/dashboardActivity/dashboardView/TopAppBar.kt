@@ -67,6 +67,14 @@ fun TopAppBar(
                         navController.navigate("fullScheduleFragment") })
                     DropdownMenuItem(trailingIcon = { Icons.Default.List}, text = { Text("Wyświetl skład grupy") }, onClick = {isExpanded.value = !isExpanded.value
                         navController.navigate("deanGroupFragment") })
+                    DropdownMenuItem(trailingIcon = { Icons.Default.List}, text = { Text("Wyszukaj studenta") }, onClick = {isExpanded.value = !isExpanded.value
+                        navController.navigate("deanGroupFragment") })
+                    DropdownMenuItem(trailingIcon = { Icons.Default.List}, text = { Text("Wyszukaj wykładowcę") }, onClick = {isExpanded.value = !isExpanded.value
+                        navController.navigate("deanGroupFragment") })
+                    DropdownMenuItem(trailingIcon = { Icons.Default.List}, text = { Text("Wyszukaj grupę dziekańską") }, onClick = {isExpanded.value = !isExpanded.value
+                        navController.navigate("deanGroupFragment") })
+                    DropdownMenuItem(trailingIcon = { Icons.Default.List}, text = { Text("Wyświetl plan studiów") }, onClick = {isExpanded.value = !isExpanded.value
+                        navController.navigate("deanGroupFragment") })
                     DropdownMenuItem(trailingIcon = { Icons.Default.ExitToApp}, text = { Text("Wyloguj") }, onClick = { activity?.finish() })
                 }
             }
