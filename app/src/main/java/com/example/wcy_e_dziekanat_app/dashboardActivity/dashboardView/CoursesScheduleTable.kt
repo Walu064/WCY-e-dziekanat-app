@@ -11,7 +11,7 @@ import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardModel.Schedule
 import java.time.LocalDate
 
 
-val fixedScheduleTimes = listOf("08:00", "09:50", "11:40", "13:15", "15:45", "17:20", "19:30")
+val fixedScheduleTimes = listOf("08:00", "09:50", "11:40", "13:15", "15:45", "17:35", "19:30")
 
 @Composable
 fun CoursesScheduleTable(coursesList: List<FullCourseInfo>, onCourseClicked: (FullCourseInfo) -> Unit) {

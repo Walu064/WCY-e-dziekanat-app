@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Query, Depends
 from sqlalchemy.orm import Session
 from typing import List
 from datetime import datetime, timedelta
@@ -60,7 +60,7 @@ def get_schedule(schedule_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Plan zajęć nie znaleziony")
     return db_schedule
 
-@schedule_router.get('/get_schedule/by_group/{dean_group}', response_model=List[ScheduleBase])
+@schedule_router.get('/get_schedules/by_group/{dean_group}', response_model=List[ScheduleBase])
 def get_schedules_by_dean_group(dean_group: str, db: Session = Depends(get_db)):
     schedules = db.query(Schedule).filter(Schedule.dean_group == dean_group).all()
     return [ScheduleBase.from_orm(schedule) for schedule in schedules]
@@ -73,6 +73,26 @@ def get_today_schedules_by_dean_group(dean_group: str, db: Session = Depends(get
         Schedule.date_time >= today,
         Schedule.date_time < today + timedelta(days=1)
     ).all()
+    return [ScheduleBase.from_orm(schedule) for schedule in schedules]
+
+from datetime import datetime
+
+@schedule_router.get('/schedules/by_group/{dean_group}/on_date/', response_model=List[ScheduleBase])
+def get_schedules_by_dean_group_and_date(dean_group: str, date_str: str = Query(...), db: Session = Depends(get_db)):
+    try:
+        date = datetime.strptime(date_str, "%Y-%m-%d").date()
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Niepoprawny format daty, oczekiwany format: RRRR-MM-DD")
+
+    start_of_day = datetime.combine(date, datetime.min.time())
+    end_of_day = datetime.combine(date, datetime.max.time())
+
+    schedules = db.query(Schedule).filter(
+        Schedule.dean_group == dean_group,
+        Schedule.date_time >= start_of_day,
+        Schedule.date_time <= end_of_day
+    ).all()
+
     return [ScheduleBase.from_orm(schedule) for schedule in schedules]
 
 @schedule_router.put('/update_schedule/{schedule_id}', response_model=ScheduleDB)
