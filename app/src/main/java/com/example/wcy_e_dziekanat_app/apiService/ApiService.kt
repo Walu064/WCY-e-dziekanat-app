@@ -32,5 +32,4 @@ interface ApiService {
 
     @GET("/users/by_group/{dean_group}")
     suspend fun getUsersByDeanGroup(@Path("dean_group") deanGroup: String): Response<List<UserOut>>
-
 }
