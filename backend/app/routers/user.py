@@ -40,6 +40,13 @@ def get_user_by_album_number(album_number: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Użytkownik nie znaleziony")
     return user
 
+@user_router.get("/users/by_group/{dean_group}", response_model=List[UserOut])
+def get_users_by_dean_group(dean_group: str, db: Session = Depends(get_db)):
+    users = db.query(User).filter(User.dean_group == dean_group).all()
+    if not users:
+        raise HTTPException(status_code=404, detail="Nie znaleziono studentów w tej grupie dziekańskiej")
+    return users
+
 @user_router.put("/user/{album_number}")
 def update_user(album_number: str, first_name: str = Body(...), second_name: str = Body(...), dean_group: str = Body(...), db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.album_number == album_number).first()
