@@ -14,7 +14,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.wcy_e_dziekanat_app.apiService.ApiService
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.DashboardScreen
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.deanGroupFragment.DeanGroupFragment
-import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.fullScheduleFragment.FullScheduleFragment
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.fullScheduleFragment.fullScheduleFragmentView.FullScheduleFragment
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.fullScheduleFragment.fullScheduleFragmentViewModel.FullScheduleFragmentViewModel
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.fullScheduleFragment.fullScheduleFragmentViewModelFactory.FullScheduleFragmentViewModelFactory
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.myProfileFragment.MyProfileFragment
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardViewModel.DashboardViewModel
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardViewModelFactory.DashboardViewModelFactory
@@ -32,8 +34,11 @@ class DashboardActivity : ComponentActivity() {
             .build()
         val apiService = retrofit.create(ApiService::class.java)
 
-        val viewModelFactory = DashboardViewModelFactory(apiService)
-        val viewModel = ViewModelProvider(this, viewModelFactory)[DashboardViewModel::class.java]
+        val dashboardActivityViewModelFactory = DashboardViewModelFactory(apiService)
+        val dashboardActivityViewModel = ViewModelProvider(this, dashboardActivityViewModelFactory)[DashboardViewModel::class.java]
+
+        val fullScheduleFragmentViewModelFactory = FullScheduleFragmentViewModelFactory(apiService)
+        val fullScheduleFragmentViewModel = ViewModelProvider(this, fullScheduleFragmentViewModelFactory)[FullScheduleFragmentViewModel::class.java]
 
         setContent {
             val navController = rememberNavController()
@@ -41,14 +46,14 @@ class DashboardActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination = "dashboardActivityView") {
                         composable("dashboardActivityView") {
                             Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                                DashboardScreen(viewModel = viewModel, navController = navController)
+                                DashboardScreen(viewModel = dashboardActivityViewModel, navController = navController)
                             }
                         }
                         composable("myProfileFragment") {
                             MyProfileFragment(navController = navController)
                         }
                         composable("fullScheduleFragment") {
-                            FullScheduleFragment(navController = navController)
+                            FullScheduleFragment(viewModel = fullScheduleFragmentViewModel, navController = navController, deanGroup = dashboardActivityViewModel.deanGroup.value)
                         }
                         composable("deanGroupFragment") {
                             DeanGroupFragment(navController = navController)
@@ -57,7 +62,7 @@ class DashboardActivity : ComponentActivity() {
                 }
             }
         intent.getStringExtra("loggedUserAlbumNumber")?.let { albumNumber ->
-            viewModel.getUserData(albumNumber)
+            dashboardActivityViewModel.getUserData(albumNumber)
         }
     }
 }

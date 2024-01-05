@@ -1,4 +1,4 @@
-package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.fullScheduleFragment
+package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.fullScheduleFragment.fullScheduleFragmentView
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -32,7 +32,7 @@ fun CalendarHeader(currentMonthYear: MutableState<YearMonth>) {
         Text(
             text = "${currentMonthYear.value.month.name.lowercase(Locale.ROOT)
                 .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }} ${currentMonthYear.value.year}",
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.bodyLarge
         )
         IconButton(onClick = {
             currentMonthYear.value = currentMonthYear.value.plusMonths(1)

@@ -10,6 +10,7 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
     @POST("/login/")
@@ -24,4 +25,8 @@ interface ApiService {
 
     @GET("/get_course/{course_id}")
     fun getCourseDetails(@Path("course_id") courseId: Int): Call<Course>
+
+    @GET("/schedules/by_group/{dean_group}/on_date/")
+    fun getSchedulesByDeanGroupAndDate(@Path("dean_group") deanGroup: String, @Query("date_str") date: String): Call<List<Schedule>>
+
 }

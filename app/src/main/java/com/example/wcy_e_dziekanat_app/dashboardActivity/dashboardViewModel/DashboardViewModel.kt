@@ -83,4 +83,21 @@ class DashboardViewModel(private val apiService: ApiService) : ViewModel() {
             })
         }
     }
+
+    fun getSchedulesForSpecificDay(deanGroup: String, date: String) {
+        viewModelScope.launch {
+            apiService.getSchedulesByDeanGroupAndDate(deanGroup, date).enqueue(object : Callback<List<Schedule>> {
+                override fun onResponse(call: Call<List<Schedule>>, response: Response<List<Schedule>>) {
+                    if (response.isSuccessful) {
+                        val schedules = response.body() ?: listOf()
+                        // Możesz tu przetwarzać dane jak uważasz za stosowne
+                    }
+                }
+
+                override fun onFailure(call: Call<List<Schedule>>, t: Throwable) {
+                    t.printStackTrace()
+                }
+            })
+        }
+    }
 }
