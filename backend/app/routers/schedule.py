@@ -2,12 +2,13 @@ from fastapi import APIRouter, HTTPException, Query, Depends
 from sqlalchemy.orm import Session
 from typing import List
 from datetime import datetime, timedelta
-from schemas import CourseCreate, CourseDB, CourseBase, ScheduleCreate, ScheduleDB, ScheduleBase
+from schemas import CourseCreate, CourseDB, ScheduleCreate, ScheduleDB, ScheduleBase
 from database import Course, Schedule, get_db
+from datetime import datetime
 
 schedule_router = APIRouter()
 
-@schedule_router.post('/create_course', response_model = CourseDB)
+@schedule_router.post('/create_course', response_model=CourseDB)
 def create_course(course: CourseCreate, db: Session = Depends(get_db)):
     db_course = Course(**course.dict())
     db.add(db_course)
@@ -15,7 +16,7 @@ def create_course(course: CourseCreate, db: Session = Depends(get_db)):
     db.refresh(db_course)
     return db_course
 
-@schedule_router.get('/get_course/{course_id}', response_model=CourseBase)
+@schedule_router.get('/get_course/{course_id}', response_model=CourseDB)
 def get_course(course_id: int, db: Session = Depends(get_db)):
     course = db.query(Course).filter(Course.id == course_id).first()
     if course is None:
@@ -74,8 +75,6 @@ def get_today_schedules_by_dean_group(dean_group: str, db: Session = Depends(get
         Schedule.date_time < today + timedelta(days=1)
     ).all()
     return [ScheduleBase.from_orm(schedule) for schedule in schedules]
-
-from datetime import datetime
 
 @schedule_router.get('/schedules/by_group/{dean_group}/on_date/', response_model=List[ScheduleBase])
 def get_schedules_by_dean_group_and_date(dean_group: str, date_str: str = Query(...), db: Session = Depends(get_db)):
