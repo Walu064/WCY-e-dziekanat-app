@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 from datetime import datetime
-from database import Schedule
 from .course_schema import CourseDB
 
 class ScheduleBase(BaseModel):

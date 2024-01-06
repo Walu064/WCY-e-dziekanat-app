@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey, LargeBinary
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
@@ -17,13 +17,27 @@ class User(Base):
     first_name = Column(String)
     second_name = Column(String)
     dean_group = Column(String)
+    email_address = Column(String, unique=True)
+    telephone = Column(String)
+    photo = Column(LargeBinary)
+
+class Lecturer(Base):
+    __tablename__ = 'lecturers'
+    id = Column(Integer, primary_key=True)
+    first_name = Column(String, nullable=False)
+    last_name = Column(String, nullable=False)
+    office = Column(String)
+    telephone = Column(String)
+    email_address = Column(String, unique=True)
+    photo = Column(LargeBinary)
 
 class Course(Base):
     __tablename__ = 'courses'
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    lecturer = Column(String, nullable=False)
+    lecturer = Column(Integer, ForeignKey('lecturers.id'), nullable=False)
     type = Column(String, nullable=False)
+    lecturer_info = relationship("Lecturer")
 
 class Schedule(Base):
     __tablename__ = 'schedules'
@@ -32,7 +46,6 @@ class Schedule(Base):
     date_time = Column(DateTime, nullable=False)
     classroom = Column(String, nullable=False)
     dean_group = Column(String, nullable=False)
-
     course = relationship("Course")
 
 Base.metadata.create_all(bind=engine)
