@@ -49,7 +49,9 @@ fun CourseDetailsDialog(fullCourseInfo: FullCourseInfo?, onDismiss: () -> Unit) 
                     fullCourseInfo.courseDetails?.let {
                         DetailRow("Nazwa przedmiotu: ", it.name)
                         Spacer(modifier = Modifier.height(3.dp))
-                        DetailRow("Prowadzący: ", it.lecturer)
+                        fullCourseInfo.lecturerDetails?.let { lecturer ->
+                            DetailRow("Prowadzący: ", "${lecturer.first_name} ${lecturer.last_name}")
+                        }
                         Spacer(modifier = Modifier.height(3.dp))
                         DetailRow("Typ: ", it.type)
                     }

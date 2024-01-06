@@ -28,7 +28,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun FullScheduleFragment(viewModel : FullScheduleFragmentViewModel, navController: NavController, deanGroup: String) {
+fun FullScheduleFragment(viewModel: FullScheduleFragmentViewModel, navController: NavController, deanGroup: String) {
     val context = LocalContext.current
     context as? ComponentActivity
     val onCourseClicked = { courseInfo: FullCourseInfo ->
@@ -38,6 +38,8 @@ fun FullScheduleFragment(viewModel : FullScheduleFragmentViewModel, navControlle
 
     val currentMonthYear = viewModel.currentMonthYear
     val selectedDate = remember { mutableStateOf<LocalDate?>(null) }
+    val specificDaySchedules = viewModel.specificDaySchedules.value
+    val errorMessage = viewModel.errorMessage.value
 
     LaunchedEffect(selectedDate.value) {
         selectedDate.value?.let {
@@ -58,7 +60,6 @@ fun FullScheduleFragment(viewModel : FullScheduleFragmentViewModel, navControlle
             selectedDate = selectedDate.value,
             onDateSelected = { date ->
                 selectedDate.value = date
-                viewModel.onDateSelected(date, deanGroup)
             }
         )
 
@@ -67,7 +68,7 @@ fun FullScheduleFragment(viewModel : FullScheduleFragmentViewModel, navControlle
         selectedDate.value?.let {
             Text("Wybrana data: ${it.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))}",
                 style = MaterialTheme.typography.bodyMedium)
-            CoursesScheduleTable(coursesList = viewModel.specificDaySchedules.value, onCourseClicked)
+            CoursesScheduleTable(coursesList = specificDaySchedules, onCourseClicked)
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -82,6 +83,12 @@ fun FullScheduleFragment(viewModel : FullScheduleFragmentViewModel, navControlle
         if (viewModel.showDialog.value) {
             CourseDetailsDialog(fullCourseInfo = viewModel.selectedCourse.value) {
                 viewModel.showDialog.value = false
+            }
+        }
+
+        errorMessage.let {
+            if (it.isNotEmpty()) {
+                Text(it, color = MaterialTheme.colorScheme.error)
             }
         }
     }

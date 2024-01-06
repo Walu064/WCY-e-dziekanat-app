@@ -1,39 +1,32 @@
 package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.deanGroupFragment.deanGroupFragmentViewModel
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.wcy_e_dziekanat_app.apiService.ApiService
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardModel.UserOut
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import retrofit2.HttpException
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class DeanGroupFragmentViewModel(private val apiService: ApiService) : ViewModel() {
 
-    private val _students = MutableStateFlow<List<UserOut>>(emptyList())
-    val students: StateFlow<List<UserOut>> = _students
-
-    private val _errorMessage = MutableStateFlow<String?>(null)
-    val errorMessage: StateFlow<String?> = _errorMessage
+    var students = mutableStateOf<List<UserOut>>(emptyList())
+    var errorMessage = mutableStateOf<String?>(null)
 
     fun fetchStudents(deanGroup: String) {
-        viewModelScope.launch {
-            try {
-                val response = apiService.getUsersByDeanGroup(deanGroup)
+        apiService.getUsersByDeanGroup(deanGroup).enqueue(object : Callback<List<UserOut>> {
+            override fun onResponse(call: Call<List<UserOut>>, response: Response<List<UserOut>>) {
                 if (response.isSuccessful) {
-                    _students.value = response.body() ?: emptyList()
-                    _errorMessage.value = null
+                    students.value = response.body() ?: emptyList()
+                    errorMessage.value = null
                 } else {
-                    _errorMessage.value = "Błąd: Nie udało się pobrać danych studentów."
-                }
-            } catch (e: Exception) {
-                if (e is HttpException && e.code() == 404) {
-                    _errorMessage.value = "Nie znaleziono studentów w tej grupie dziekańskiej."
-                } else {
-                    _errorMessage.value = "Błąd połączenia: ${e.localizedMessage}"
+                    errorMessage.value = "Error: ${response.code()} ${response.message()}"
                 }
             }
-        }
+
+            override fun onFailure(call: Call<List<UserOut>>, t: Throwable) {
+                errorMessage.value = "Failure: ${t.message}"
+            }
+        })
     }
 }

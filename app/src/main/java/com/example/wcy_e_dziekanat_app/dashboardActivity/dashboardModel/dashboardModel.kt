@@ -11,8 +11,18 @@ data class UserOut(
 data class Course(
     val id: Int,
     val name: String,
-    val lecturer: String,
+    val lecturer: Int = 0,
     val type: String
+)
+
+data class Lecturer(
+    val id: Int,
+    val first_name: String,
+    val last_name: String,
+    val office: String,
+    val telephone: String,
+    val email_adress: String,
+    val photo: String
 )
 
 data class Schedule(
@@ -24,6 +34,7 @@ data class Schedule(
 
 data class FullCourseInfo(
     val schedule: Schedule,
-    val courseDetails: Course? = null
+    val courseDetails: Course? = null,
+    val lecturerDetails: Lecturer? = null
 )
 

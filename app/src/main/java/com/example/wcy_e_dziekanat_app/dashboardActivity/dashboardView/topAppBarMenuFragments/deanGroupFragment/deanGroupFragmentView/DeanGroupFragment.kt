@@ -25,7 +25,7 @@ fun DeanGroupFragment(viewModel: DeanGroupFragmentViewModel, navController: NavC
         viewModel.fetchStudents(deanGroup)
     }
 
-    val students by viewModel.students.collectAsState()
+    val students = viewModel.students.value
 
     Column(
         modifier = Modifier

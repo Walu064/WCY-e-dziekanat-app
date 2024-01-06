@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,7 +28,17 @@ import com.example.wcy_e_dziekanat_app.loginActivity.loginViewModel.LoginViewMod
 
 @Composable
 fun LoginView(viewModel: LoginViewModel, startDashboardActivity: (String) -> Unit) {
+    val loginSuccess by viewModel.loginSuccess
+    val loginError by viewModel.loginError
+
+    LaunchedEffect(loginSuccess) {
+        if (loginSuccess) {
+            startDashboardActivity(viewModel.albumNumber.value)
+        }
+    }
+
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    errorMessage = loginError
 
     Column(
         modifier = Modifier
@@ -62,16 +73,7 @@ fun LoginView(viewModel: LoginViewModel, startDashboardActivity: (String) -> Uni
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {
-            viewModel.performLogin { success, error ->
-                if (success) {
-                    errorMessage = null
-                    startDashboardActivity(viewModel.albumNumber.value)
-                } else {
-                    errorMessage = error ?: "Nieznany błąd"
-                }
-            }
-        }) {
+        Button(onClick = { viewModel.performLogin() }) {
             Text("Zaloguj się")
         }
 
