@@ -16,6 +16,11 @@ def create_course(course: CourseCreate, db: Session = Depends(get_db)):
     db.refresh(db_course)
     return db_course
 
+@schedule_router.get('/get_courses', response_model=List[CourseDB])
+def get_all_courses(db: Session = Depends(get_db)):
+    courses = db.query(Course).all()
+    return courses
+
 @schedule_router.get('/get_course/{course_id}', response_model=CourseDB)
 def get_course(course_id: int, db: Session = Depends(get_db)):
     course = db.query(Course).filter(Course.id == course_id).first()
