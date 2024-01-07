@@ -28,7 +28,7 @@ def login_user(user: UserLoginSchema, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Niepoprawne hasło")
     return {"message": "Pomyślnie zalogowano"}
 
-@user_router.get("/users/", response_model=List[UserOut])
+@user_router.get("/get_users/", response_model=List[UserOut])
 def get_users(db : Session = Depends(get_db)):
     users = db.query(User).all()
     return users

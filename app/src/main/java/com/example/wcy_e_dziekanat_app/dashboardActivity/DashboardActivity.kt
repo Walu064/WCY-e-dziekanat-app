@@ -22,6 +22,9 @@ import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBar
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.myProfileFragment.myProfileFragmentView.MyProfileFragment
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.myProfileFragment.myProfileFragmentViewModel.MyProfileFragmentViewModel
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.myProfileFragment.myProfileFragmentViewModelFactory.MyProfileFragmentViewModelFactory
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchFragments.searchStudentFragment.searchStudentFragmentView.SearchStudentFragmentView
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchFragments.searchStudentFragment.searchStudentFragmentViewModel.SearchStudentFragmentViewModel
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchFragments.searchStudentFragment.searchStudentFragmentViewModelFacotry.SearchStudentFragmentViewModelF
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardViewModel.DashboardViewModel
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardViewModelFactory.DashboardViewModelFactory
 import com.example.wcy_e_dziekanat_app.ui.theme.WCYedziekanatappTheme
@@ -50,6 +53,9 @@ class DashboardActivity : ComponentActivity() {
         val myProfileFragmentViewModelFactory = MyProfileFragmentViewModelFactory(apiService)
         val myProfileFragmentViewModel = ViewModelProvider(this, myProfileFragmentViewModelFactory)[MyProfileFragmentViewModel::class.java]
 
+        val searchStudentFragmentViewModelF = SearchStudentFragmentViewModelF(apiService)
+        val searchStudentFragmentViewModel = ViewModelProvider(this, searchStudentFragmentViewModelF)[SearchStudentFragmentViewModel::class.java]
+
         val loggedUserAlbumNumber =  intent.getStringExtra("loggedUserAlbumNumber")
 
         setContent {
@@ -73,7 +79,7 @@ class DashboardActivity : ComponentActivity() {
                             DeanGroupFragment(viewModel = deanGroupFragmentViewModel, navController = navController, deanGroup = dashboardActivityViewModel.deanGroup.value)
                         }
                         composable("searchStudentFragment") {
-
+                            SearchStudentFragmentView(viewModel = searchStudentFragmentViewModel, navController = navController)
                         }
                         composable("searchLecturerFragment") {
 
@@ -81,7 +87,10 @@ class DashboardActivity : ComponentActivity() {
                         composable("searchDeanGroupFragment") {
 
                         }
-                        composable("displayStudiesPlan") {
+                        composable("searchCourseFragment") {
+
+                        }
+                        composable("displayStudiesPlanFragment") {
 
                         }
                     }

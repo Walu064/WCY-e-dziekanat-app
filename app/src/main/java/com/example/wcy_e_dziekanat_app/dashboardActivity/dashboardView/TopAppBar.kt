@@ -68,13 +68,15 @@ fun TopAppBar(
                     DropdownMenuItem(trailingIcon = { Icons.Default.List}, text = { Text("Wyświetl skład grupy") }, onClick = {isExpanded.value = !isExpanded.value
                         navController.navigate("deanGroupFragment") })
                     DropdownMenuItem(trailingIcon = { Icons.Default.List}, text = { Text("Wyszukaj studenta") }, onClick = {isExpanded.value = !isExpanded.value
-                        navController.navigate("deanGroupFragment") })
+                        navController.navigate("searchStudentFragment") })
                     DropdownMenuItem(trailingIcon = { Icons.Default.List}, text = { Text("Wyszukaj wykładowcę") }, onClick = {isExpanded.value = !isExpanded.value
-                        navController.navigate("deanGroupFragment") })
+                        navController.navigate("searchLecturerFragment") })
                     DropdownMenuItem(trailingIcon = { Icons.Default.List}, text = { Text("Wyszukaj grupę dziekańską") }, onClick = {isExpanded.value = !isExpanded.value
-                        navController.navigate("deanGroupFragment") })
+                        navController.navigate("searchDeanGroupFragment") })
                     DropdownMenuItem(trailingIcon = { Icons.Default.List}, text = { Text("Wyświetl plan studiów") }, onClick = {isExpanded.value = !isExpanded.value
-                        navController.navigate("deanGroupFragment") })
+                        navController.navigate("searchCourseFragment") })
+                    DropdownMenuItem(trailingIcon = { Icons.Default.List}, text = { Text("Wyświetl plan studiów") }, onClick = {isExpanded.value = !isExpanded.value
+                        navController.navigate("displayStudiesPlanFragment") })
                     DropdownMenuItem(trailingIcon = { Icons.Default.ExitToApp}, text = { Text("Wyloguj") }, onClick = { activity?.finish() })
                 }
             }

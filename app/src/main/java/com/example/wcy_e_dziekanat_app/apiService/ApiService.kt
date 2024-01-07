@@ -36,4 +36,13 @@ interface ApiService {
 
     @GET("/get_lecturer_by_id/{lecturer_id}")
     fun getLecturerInfo(@Path("lecturer_id") lecturerId: Int): Call<Lecturer>
+
+    @GET("/get_users/")
+    fun getAllUsers(): Call<List<UserOut>>
+
+    @GET("/get_lecturers/")
+    fun getAllLecturers(): Call<List<Lecturer>>
+
+    @GET("/get_courses/")
+    fun getAllCourses(): Call<List<Course>>
 }
