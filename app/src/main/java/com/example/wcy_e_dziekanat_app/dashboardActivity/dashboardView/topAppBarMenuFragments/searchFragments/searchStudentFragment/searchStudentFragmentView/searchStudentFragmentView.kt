@@ -26,13 +26,6 @@ fun SearchStudentFragmentView(viewModel: SearchStudentFragmentViewModel, navCont
                 .align(Alignment.TopCenter)
                 .padding(16.dp)
         ) {
-            Text(
-                text = "Lista Studentów",
-                style = MaterialTheme.typography.headlineMedium
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
             OutlinedTextField(
                 value = searchQuery,
                 onValueChange = {

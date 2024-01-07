@@ -8,7 +8,7 @@ from datetime import datetime
 
 schedule_router = APIRouter()
 
-@schedule_router.post('/create_course', response_model=CourseDB)
+@schedule_router.post('/create_course/', response_model=CourseDB)
 def create_course(course: CourseCreate, db: Session = Depends(get_db)):
     db_course = Course(**course.dict())
     db.add(db_course)
@@ -16,7 +16,7 @@ def create_course(course: CourseCreate, db: Session = Depends(get_db)):
     db.refresh(db_course)
     return db_course
 
-@schedule_router.get('/get_courses', response_model=List[CourseDB])
+@schedule_router.get('/get_courses/', response_model=List[CourseDB])
 def get_all_courses(db: Session = Depends(get_db)):
     courses = db.query(Course).all()
     return courses
@@ -51,7 +51,7 @@ def delete_course(course_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"message": "Kurs usunięty pomyślnie"}
 
-@schedule_router.post('/create_schedule', response_model = ScheduleDB)
+@schedule_router.post('/create_schedule/', response_model = ScheduleDB)
 def create_schedule(schedule: ScheduleCreate, db: Session = Depends(get_db)):
     db_schedule = Schedule(**schedule.dict())
     db.add(db_schedule)
