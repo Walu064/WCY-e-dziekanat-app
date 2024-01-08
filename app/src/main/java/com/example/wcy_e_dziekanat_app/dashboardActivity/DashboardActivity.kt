@@ -97,13 +97,14 @@ class DashboardActivity : ComponentActivity() {
                         composable("searchLecturerFragment") {
                             SearchLecturerFragmentV(viewModel = searchLecturerFragmentVM, navController = navController)
                         }
-                        composable("searchDeanGroupFragment") {
 
-                        }
                         composable("searchCourseFragment") {
                             SearchCourseFragmentView(viewModel = searchCourseFragmentViewModel, navController = navController)
                         }
                         composable("displayStudiesPlanFragment") {
+
+                        }
+                        composable("displayDeanOfficeInfoFragment") {
 
                         }
                     }
