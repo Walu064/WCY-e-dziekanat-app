@@ -6,7 +6,7 @@ data class UserOut(
     val first_name: String,
     val second_name: String,
     val dean_group: String,
-    val email_adress: String,
+    val email_address: String,
     val telephone: String
 )
 

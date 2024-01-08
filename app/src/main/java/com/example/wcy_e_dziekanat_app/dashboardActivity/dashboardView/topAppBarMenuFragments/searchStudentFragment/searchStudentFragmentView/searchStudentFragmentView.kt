@@ -1,6 +1,7 @@
 package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchStudentFragment.searchStudentFragmentView
 
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,6 +20,8 @@ fun SearchStudentFragmentView(viewModel: SearchStudentFragmentViewModel, navCont
     val errorMessageState by viewModel.errorMessage.collectAsState()
     val errorMessage = errorMessageState
     var searchQuery by remember { mutableStateOf("") }
+    var showDialog by remember { mutableStateOf(false) }
+    var selectedUser by remember { mutableStateOf<UserOut?>(null) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -47,36 +50,52 @@ fun SearchStudentFragmentView(viewModel: SearchStudentFragmentViewModel, navCont
 
             LazyColumn(modifier = Modifier.fillMaxWidth().weight(1f)) {
                 items(users) { user ->
-                    UserItem(user)
+                    UserItem(user, onUserClick = {
+                        selectedUser = user
+                        showDialog = true
+                    })
                 }
             }
-        }
 
-        Button(
-            onClick = { navController.popBackStack() },
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-        ) {
-            Text("Powrót")
+            if (showDialog) {
+                UserDetailsDialog(user = selectedUser, onDismiss = {
+                    showDialog = false
+                    selectedUser = null
+                })
+            }
+
+            Button(
+                onClick = { navController.popBackStack() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                Text("Powrót")
+            }
         }
     }
 }
 
 @Composable
-fun UserItem(user: UserOut) {
+fun UserItem(user: UserOut, onUserClick: (UserOut) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
+            .padding(vertical = 4.dp)
+            .clickable { onUserClick(user) },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            Text(text = "${user.first_name} ${user.second_name}", style = MaterialTheme.typography.bodyMedium)
-            Text(text = "Numer albumu: ${user.album_number}", style = MaterialTheme.typography.bodyLarge)
+            Text(
+                text = "${user.first_name} ${user.second_name}",
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Text(
+                text = "Grupa dziekańska: ${user.dean_group}",
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
     }
 }
