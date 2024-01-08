@@ -1,5 +1,6 @@
 package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchCourseFragment.searchCourseFragmentV
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -31,6 +33,8 @@ fun SearchCourseFragmentView(viewModel: SearchCourseFragmentViewModel, navContro
     val courses by viewModel.filteredCourses.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
     var searchQuery by remember { mutableStateOf("") }
+    var selectedCourse by remember { mutableStateOf<Course?>(null) }
+    val showDialog = remember { mutableStateOf(false) }
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -54,7 +58,17 @@ fun SearchCourseFragmentView(viewModel: SearchCourseFragmentViewModel, navContro
 
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
                 items(courses) { course ->
-                    CourseItem(course)
+                    CourseItem(course) {
+                        selectedCourse = course
+                        showDialog.value = true
+                    }
+                }
+            }
+
+            if (showDialog.value) {
+                CourseDetailsDialog(selectedCourse) {
+                    showDialog.value = false
+                    selectedCourse = null
                 }
             }
 
@@ -81,12 +95,18 @@ fun SearchCourseFragmentView(viewModel: SearchCourseFragmentViewModel, navContro
 
 
 @Composable
-fun CourseItem(course: Course) {
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .padding(vertical = 4.dp)) {
-
-        Column(modifier = Modifier.padding(16.dp)) {
+fun CourseItem(course: Course, onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = 4.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+        ) {
             Text(course.name, style = MaterialTheme.typography.bodyLarge)
             Text("Typ: ${course.type}", style = MaterialTheme.typography.bodyLarge)
         }
