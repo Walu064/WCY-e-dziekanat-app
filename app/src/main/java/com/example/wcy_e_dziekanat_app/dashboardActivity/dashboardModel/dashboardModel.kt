@@ -11,10 +11,12 @@ data class UserOut(
 )
 
 data class Course(
-    val id: Int,
     val name: String,
-    val lecturer: Int = 0,
-    val type: String
+    val lecturer: Int,
+    val type: String,
+    val semester: String,
+    val id: Int,
+    var lecturerName: String? = null
 )
 
 data class Lecturer(

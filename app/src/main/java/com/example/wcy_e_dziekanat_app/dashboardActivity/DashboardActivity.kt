@@ -17,6 +17,9 @@ import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.Dashboard
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.deanGroupFragment.deanGroupFragmentView.DeanGroupFragment
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.deanGroupFragment.deanGroupFragmentViewModel.DeanGroupFragmentViewModel
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.deanGroupFragment.deanGroupFragmentViewModelFactory.DeanGroupViewFragmentModelFactory
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.displayStudyPlanFragment.displayStudyPlanFragmentView.DisplayStudyPlanFragmentView
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.displayStudyPlanFragment.displayStudyPlanFragmentViewModel.DisplayStudyPlanFragmentViewModel
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.displayStudyPlanFragment.displayStudyPlanViewModelFactory.DisplayStudyPlanFragmentViewModelFactory
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.fullScheduleFragment.fullScheduleFragmentView.FullScheduleFragment
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.fullScheduleFragment.fullScheduleFragmentViewModelFactory.FullScheduleFragmentViewModelFactory
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.myProfileFragment.myProfileFragmentView.MyProfileFragment
@@ -68,6 +71,8 @@ class DashboardActivity : ComponentActivity() {
         val searchCourseFragmentViewModelF = SearchCourseFragmentViewModelF(apiService)
         val searchCourseFragmentViewModel = ViewModelProvider(this, searchCourseFragmentViewModelF)[SearchCourseFragmentViewModel::class.java]
 
+        val displayStudyPlanFragmentViewModelFactory = DisplayStudyPlanFragmentViewModelFactory(apiService)
+        val displayStudyPlanFragmentViewModel = ViewModelProvider(this, displayStudyPlanFragmentViewModelFactory)[DisplayStudyPlanFragmentViewModel::class.java]
 
         val loggedUserAlbumNumber =  intent.getStringExtra("loggedUserAlbumNumber")
 
@@ -102,7 +107,7 @@ class DashboardActivity : ComponentActivity() {
                             SearchCourseFragmentView(viewModel = searchCourseFragmentViewModel, navController = navController)
                         }
                         composable("displayStudiesPlanFragment") {
-
+                            DisplayStudyPlanFragmentView(viewModel = displayStudyPlanFragmentViewModel, navController = navController)
                         }
                         composable("displayDeanOfficeInfoFragment") {
 
