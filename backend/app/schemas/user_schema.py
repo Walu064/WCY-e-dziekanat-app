@@ -6,7 +6,7 @@ class UserCreateSchema(BaseModel):
     first_name: str
     second_name: str
     dean_group: str
-    email_adress: str
+    email_address: str
     telephone: str
 
 class UserLoginSchema(BaseModel):
@@ -19,7 +19,7 @@ class UserOut(BaseModel):
     first_name: str
     second_name: str
     dean_group: str
-    email_adress: str
+    email_address: str
     telephone: str
 
     class Config:

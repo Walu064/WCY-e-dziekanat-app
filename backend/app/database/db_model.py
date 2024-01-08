@@ -35,6 +35,7 @@ class Course(Base):
     name = Column(String, nullable=False)
     lecturer = Column(Integer, ForeignKey('lecturers.id'), nullable=False)
     type = Column(String, nullable=False)
+    semester = Column(String)
     lecturer_info = relationship("Lecturer")
 
 class Schedule(Base):

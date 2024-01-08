@@ -13,7 +13,7 @@ def register_user(user: UserCreateSchema, db: Session = Depends(get_db)):
     if db_user:
         raise HTTPException(status_code=400, detail="Użytkownik już istnieje")
     hashed_password = hash_password(user.password)
-    db_user = User(album_number=user.album_number, hashed_password=hashed_password, first_name = user.first_name, second_name = user.second_name, dean_group = user.dean_group)
+    db_user = User(album_number=user.album_number, hashed_password=hashed_password, first_name=user.first_name, second_name=user.second_name, dean_group=user.dean_group,email_address=user.email_address, telephone=user.telephone)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
