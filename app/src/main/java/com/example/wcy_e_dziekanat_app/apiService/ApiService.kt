@@ -10,6 +10,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -45,4 +46,7 @@ interface ApiService {
 
     @GET("/get_courses/")
     fun getAllCourses(): Call<List<Course>>
+
+    @PUT("/user/{album_number}")
+    fun updateUser(@Path("album_number") albumNumber: String, @Body user: UserOut): Call<UserOut>
 }
