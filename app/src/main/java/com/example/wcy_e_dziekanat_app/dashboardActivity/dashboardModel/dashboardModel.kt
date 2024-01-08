@@ -23,7 +23,7 @@ data class Lecturer(
     val last_name: String,
     val office: String,
     val telephone: String,
-    val email_adress: String,
+    val email_address: String,
     val photo: String
 )
 
