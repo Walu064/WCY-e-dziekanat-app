@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -73,7 +74,11 @@ fun LoginView(viewModel: LoginViewModel, startDashboardActivity: (String) -> Uni
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = { viewModel.performLogin() }) {
+        Button(onClick = { viewModel.performLogin() },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        ) {
             Text("Zaloguj się")
         }
 

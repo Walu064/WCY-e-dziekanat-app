@@ -1,4 +1,4 @@
-package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchFragments.searchCourseFragment.searchCourseFragmentVM
+package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchCourseFragment.searchCourseFragmentVM
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

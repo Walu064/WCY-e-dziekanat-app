@@ -1,4 +1,4 @@
-package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchFragments.searchStudentFragment.searchStudentFragmentView
+package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchStudentFragment.searchStudentFragmentView
 
 
 import androidx.compose.foundation.layout.*
@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardModel.UserOut
-import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchFragments.searchStudentFragment.searchStudentFragmentViewModel.SearchStudentFragmentViewModel
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchStudentFragment.searchStudentFragmentViewModel.SearchStudentFragmentViewModel
 
 @Composable
 fun SearchStudentFragmentView(viewModel: SearchStudentFragmentViewModel, navController: NavController) {
@@ -75,9 +75,8 @@ fun UserItem(user: UserOut) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
+            Text(text = "${user.first_name} ${user.second_name}", style = MaterialTheme.typography.bodyMedium)
             Text(text = "Numer albumu: ${user.album_number}", style = MaterialTheme.typography.bodyLarge)
-            Text(text = "Imię: ${user.first_name}", style = MaterialTheme.typography.bodyMedium)
-            Text(text = "Nazwisko: ${user.second_name}", style = MaterialTheme.typography.bodyMedium)
         }
     }
 }

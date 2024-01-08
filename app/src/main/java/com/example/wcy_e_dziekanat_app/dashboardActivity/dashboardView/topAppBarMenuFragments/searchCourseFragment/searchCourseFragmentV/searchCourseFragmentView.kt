@@ -1,6 +1,8 @@
-package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchFragments.searchsearchLecturerFragment.searchLecturerFragmentV
+package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchCourseFragment.searchCourseFragmentV
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,39 +22,48 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardModel.Lecturer
-import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchFragments.searchsearchLecturerFragment.searchLecturerFragmentVM.SearchLecturerFragmentVM
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardModel.Course
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchCourseFragment.searchCourseFragmentVM.SearchCourseFragmentViewModel
 
 @Composable
-fun SearchLecturerFragmentV(viewModel: SearchLecturerFragmentVM, navController: NavController) {
-    val lecturers by viewModel.filteredLecturers.collectAsState()
+fun SearchCourseFragmentView(viewModel: SearchCourseFragmentViewModel, navController: NavController) {
+    val courses by viewModel.filteredCourses.collectAsState()
+    val errorMessageState by viewModel.errorMessage.collectAsState()
+    val errorMessage = errorMessageState
     var searchQuery by remember { mutableStateOf("") }
-    val errorMessage by viewModel.errorMessage.collectAsState()
 
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp)) {
+
         OutlinedTextField(
             value = searchQuery,
-            onValueChange = { newValue ->
-                searchQuery = newValue
-                viewModel.searchLecturers(newValue)
+            onValueChange = {
+                searchQuery = it
+                viewModel.searchCourses(it)
             },
-            label = { Text("Wyszukaj wykładowcę") },
+            label = { Text("Wyszukaj przedmiot") },
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(lecturers) { lecturer ->
-                LecturerItem(lecturer)
+            items(courses) { course ->
+                CourseItem(course)
             }
         }
 
-        errorMessage?.let {
-            Text(text = it, color = MaterialTheme.colorScheme.error)
+        if (errorMessage != null) {
+            Text(
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
 
         Spacer(modifier = Modifier.weight(1f))
+
         Button(
             onClick = { navController.popBackStack() },
             modifier = Modifier
@@ -65,14 +76,14 @@ fun SearchLecturerFragmentV(viewModel: SearchLecturerFragmentVM, navController: 
 }
 
 @Composable
-fun LecturerItem(lecturer: Lecturer) {
+fun CourseItem(course: Course) {
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(vertical = 4.dp)) {
+
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Imię: ${lecturer.first_name}", style = MaterialTheme.typography.bodyLarge)
-            Text("Nazwisko: ${lecturer.last_name}", style = MaterialTheme.typography.bodyMedium)
-            Text("Gabinet: ${lecturer.office}", style = MaterialTheme.typography.bodyMedium)
+            Text(course.name, style = MaterialTheme.typography.bodyLarge)
+            Text("Typ: ${course.type}", style = MaterialTheme.typography.bodyLarge)
         }
     }
 }

@@ -1,9 +1,9 @@
-package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchFragments.searchsearchLecturerFragment.searchLecturerFragmentVMF
+package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchsearchLecturerFragment.searchLecturerFragmentVMF
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.wcy_e_dziekanat_app.apiService.ApiService
-import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchFragments.searchsearchLecturerFragment.searchLecturerFragmentVM.SearchLecturerFragmentVM
+import com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.searchsearchLecturerFragment.searchLecturerFragmentVM.SearchLecturerFragmentVM
 
 @Suppress("UNCHECKED_CAST")
 class SearchLecturerFragmentVMF(private val apiService: ApiService) : ViewModelProvider.Factory {
