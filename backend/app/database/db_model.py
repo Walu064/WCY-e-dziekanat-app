@@ -19,7 +19,6 @@ class User(Base):
     dean_group = Column(String)
     email_address = Column(String, unique=True)
     telephone = Column(String)
-    photo = Column(LargeBinary)
 
 class Lecturer(Base):
     __tablename__ = 'lecturers'
@@ -29,7 +28,6 @@ class Lecturer(Base):
     office = Column(String)
     telephone = Column(String)
     email_address = Column(String, unique=True)
-    photo = Column(LargeBinary)
 
 class Course(Base):
     __tablename__ = 'courses'

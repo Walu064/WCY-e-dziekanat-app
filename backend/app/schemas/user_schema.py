@@ -6,6 +6,8 @@ class UserCreateSchema(BaseModel):
     first_name: str
     second_name: str
     dean_group: str
+    email_adress: str
+    telephone: str
 
 class UserLoginSchema(BaseModel):
     album_number: str
@@ -17,6 +19,8 @@ class UserOut(BaseModel):
     first_name: str
     second_name: str
     dean_group: str
+    email_adress: str
+    telephone: str
 
     class Config:
         from_attributes = True

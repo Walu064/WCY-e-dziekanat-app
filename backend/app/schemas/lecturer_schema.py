@@ -6,7 +6,6 @@ class LecturerCreate(BaseModel):
     office: str
     telephone: str
     email_address: str
-    photo: bytes
 
 class LecturerUpdate(BaseModel):
     first_name: str = None
@@ -14,4 +13,3 @@ class LecturerUpdate(BaseModel):
     office: str = None
     telephone: str = None
     email_address: str = None
-    photo: bytes = None
