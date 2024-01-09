@@ -55,7 +55,8 @@ class DisplayStudyPlanFragmentViewModel(private val apiService: ApiService) : Vi
                             "${it.first_name} ${it.last_name}"
                         })
                     } ?: emptyList()
-                    _studyPlan.value = courses.groupBy { it.semester }.toSortedMap()
+                    _studyPlan.value = courses.groupBy { it.semester }
+                        .toSortedMap(compareBy { romanNumeralToInt(it) })
                 } else {
                     //TODO: Obsłuż błąd odpowiedzi dla kursów
                 }
@@ -65,5 +66,15 @@ class DisplayStudyPlanFragmentViewModel(private val apiService: ApiService) : Vi
                 //TODO: Obsłuż wyjątek dla zapytania o kursy
             }
         })
+    }
+
+    fun romanNumeralToInt(numeral: String): Int {
+        val romanNumerals = mapOf(
+            "I" to 1, "II" to 2, "III" to 3,
+            "IV" to 4, "V" to 5, "VI" to 6,
+            "VII" to 7, "VIII" to 8, "IX" to 9, "X" to 10
+        )
+
+        return romanNumerals[numeral] ?: 0
     }
 }

@@ -1,7 +1,6 @@
 package com.example.wcy_e_dziekanat_app.dashboardActivity.dashboardView.topAppBarMenuFragments.displayStudyPlanFragment.displayStudyPlanFragmentView
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -65,7 +64,6 @@ fun SemesterHeader(semester: String) {
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.primaryContainer)
             .padding(8.dp)
     ) {
         Text(

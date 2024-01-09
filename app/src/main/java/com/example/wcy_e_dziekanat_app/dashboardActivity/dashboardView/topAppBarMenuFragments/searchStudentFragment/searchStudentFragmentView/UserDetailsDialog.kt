@@ -41,11 +41,11 @@ fun UserDetailsDialog(user: UserOut?, onDismiss: () -> Unit) {
                             .padding(bottom = 16.dp)
                     )
 
-                    DetailRow("Imię: ", user.first_name ?: "Brak danych")
-                    DetailRow("Nazwisko: ", user.second_name ?: "Brak danych")
-                    DetailRow("Grupa dziekańska: ", user.dean_group ?: "Brak danych")
-                    DetailRow("Numer telefonu:", user.telephone ?: "Brak danych")
-                    DetailRow("Adres e-mail:", user.email_address ?: "Brak danych")
+                    DetailRow("Imię: ", user.first_name)
+                    DetailRow("Nazwisko: ", user.second_name)
+                    DetailRow("Grupa dziekańska: ", user.dean_group)
+                    DetailRow("Numer telefonu:", user.telephone)
+                    DetailRow("Adres e-mail:", user.email_address)
 
                     Spacer(modifier = Modifier.height(16.dp))
 
