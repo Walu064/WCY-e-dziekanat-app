@@ -48,5 +48,5 @@ interface ApiService {
     fun getAllCourses(): Call<List<Course>>
 
     @PUT("/user/{album_number}")
-    fun updateUser(@Path("album_number") albumNumber: String, @Body user: UserOut): Call<UserOut>
+    fun updateUser(@Path("album_number") albumNumber: String, @Body telephone: String): Call<UserOut>
 }

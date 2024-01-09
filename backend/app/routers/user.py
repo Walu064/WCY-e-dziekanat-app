@@ -48,18 +48,16 @@ def get_users_by_dean_group(dean_group: str, db: Session = Depends(get_db)):
     return users
 
 @user_router.put("/user/{album_number}")
-def update_user(album_number: str, first_name: str = Body(...), second_name: str = Body(...), dean_group: str = Body(...), db: Session = Depends(get_db)):
+def update_user_phone_number(album_number: str, telephone: str = Body(...), db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.album_number == album_number).first()
     if not db_user:
         raise HTTPException(status_code=404, detail="Użytkownik nie znaleziony")
 
-    db_user.first_name = first_name
-    db_user.second_name = second_name
-    db_user.dean_group = dean_group
+    db_user.telephone = telephone
 
     db.commit()
     db.refresh(db_user)
-    return {"message": "Użytkownik zaktualizowany"}
+    return {"message": "Numer telefonu użytkownika zaktualizowany"}
 
 @user_router.delete("/user/{album_number}")
 def delete_user(album_number: str, db: Session = Depends(get_db)):

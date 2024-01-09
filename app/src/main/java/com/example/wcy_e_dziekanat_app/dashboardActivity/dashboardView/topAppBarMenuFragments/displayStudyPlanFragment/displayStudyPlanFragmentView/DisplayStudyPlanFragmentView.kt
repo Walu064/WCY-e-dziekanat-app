@@ -43,7 +43,7 @@ fun DisplayStudyPlanFragmentView(viewModel: DisplayStudyPlanFragmentViewModel, n
                 items(courses) { course ->
                     CourseItem(course)
                 }
-                item { Spacer(modifier = Modifier.height(8.dp)) } // Spacer między semestrami
+                item { Spacer(modifier = Modifier.height(8.dp)) }
             }
         }
 

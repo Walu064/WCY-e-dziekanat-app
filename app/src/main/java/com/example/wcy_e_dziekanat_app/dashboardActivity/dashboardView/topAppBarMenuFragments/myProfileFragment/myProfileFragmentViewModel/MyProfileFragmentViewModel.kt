@@ -33,12 +33,11 @@ class MyProfileFragmentViewModel(private val apiService: ApiService) : ViewModel
         })
     }
 
-    fun updateUser(user: UserOut) {
-        apiService.updateUser(user.album_number, user).enqueue(object : Callback<UserOut> {
+    fun updateUser(albumNumber: String, newPhoneNumber: String) {
+        apiService.updateUser(albumNumber, newPhoneNumber).enqueue(object : Callback<UserOut> {
             override fun onResponse(call: Call<UserOut>, response: Response<UserOut>) {
                 if (response.isSuccessful) {
-                    _userProfile.value = response.body()
-                    _error.value = null
+                    fetchUserProfile(albumNumber)
                 } else {
                     _error.value = "Error: ${response.code()} ${response.message()}"
                 }
