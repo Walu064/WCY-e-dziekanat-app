@@ -1,4 +1,4 @@
-WCY-e-dziekanat-app
+### WCY-e-dziekanat-app
 
 ## Klonowanie Repozytorium
 1. Sklonuj repozytorium przy użyciu Git:
